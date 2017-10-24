@@ -7,5 +7,6 @@
   <packaging>pom</packaging>
   <modules>
     <module>Polindrome</module>
+    <module>ComplexNumberCalculator</module>
   </modules>
 </project>
