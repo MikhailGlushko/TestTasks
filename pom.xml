@@ -8,5 +8,6 @@
   <modules>
     <module>Polindrome</module>
     <module>ComplexNumberCalculator</module>
+    <module>viaduk-wicket-task</module>
   </modules>
 </project>
