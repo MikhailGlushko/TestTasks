@@ -1,6 +1,6 @@
 package org.mogolabs.math.complex;
 
-public final class Parser {
+public final class Calculator {
 
 	public static final String[] OPERATION_GROUPS = new String[] { "+-", "*/", "^" };
 	public static final String ALLOWED_OPERATIONS = "+-*/^";
