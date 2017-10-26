@@ -1,25 +1,23 @@
 package org.mogolabs;
 
-import java.util.Arrays;
-
-/**
- * @author Misha
- *
- */
 public class Complex {
 	private double real;
 	private double image;
 
-	Complex() {
+	public Complex() {
 		this(0, 0);
 	}
 
-	Complex(double real, double image) {
+	public Complex(double real, double image) {
 		this.real = real;
 		this.image = image;
 	}
 
-	public static Complex operation(Complex one, Complex two, char... op ) {
+	public int getRealAsInt() {
+		return (int) this.real;
+	}
+
+	public static Complex operation(Complex one, Complex two, char... op) {
 		switch (op[0]) {
 		case '+':
 			return Complex.add(one, two);
@@ -36,7 +34,8 @@ public class Complex {
 		}
 	}
 
-	// додавання поточного комплексного числа до числа отриманого в методі @other
+	// додавання поточного комплексного числа до числа отриманого в методі
+	// @other
 	// Результатом є нове комплексне число
 	public Complex add(Complex other) {
 		double real = this.real + other.real;
@@ -84,12 +83,15 @@ public class Complex {
 		if (isNull())
 			throw new ArithmeticException();
 		double divisor = Math.pow(other.real, 2) + Math.pow(other.image, 2);
-		double real = (this.real * other.real + this.image * other.image) / divisor;
-		double image = (this.image * other.real - this.real * other.image) / divisor;
+		double real = (this.real * other.real + this.image * other.image)
+				/ divisor;
+		double image = (this.image * other.real - this.real * other.image)
+				/ divisor;
 		return new Complex(real, image);
 	}
 
-	public static Complex div(Complex one, Complex two) throws ArithmeticException {
+	public static Complex div(Complex one, Complex two)
+			throws ArithmeticException {
 		if (isNull(two))
 			throw new ArithmeticException();
 		double divisor = Math.pow(two.real, 2) + Math.pow(two.image, 2);
@@ -101,7 +103,8 @@ public class Complex {
 	// обчислення абсолютного значення поточного комплексного числа
 	// Результатом обчислення э дыйсне число
 	public double abs() {
-		double sqrt = Math.sqrt(Math.pow(this.real, 2) + Math.pow(this.real, 2));
+		double sqrt = Math
+				.sqrt(Math.pow(this.real, 2) + Math.pow(this.real, 2));
 		return sqrt;
 	}
 
@@ -110,12 +113,14 @@ public class Complex {
 		return sqrt;
 	}
 
-	// піднесення поточного комплексного числа до степені, отриманої в методі @power
+	// піднесення поточного комплексного числа до степені, отриманої в методі
+	// @power
 	// Результатом є нове комплексне число
 	public Complex pow(int power) {
 		Complex result = this;
 		if (power > 1) {
-			result = result.mul(this);
+			for (int i = 1; i < power; i++)
+				result = result.mul(this);
 		}
 		return result;
 	}
@@ -123,7 +128,8 @@ public class Complex {
 	public static Complex pow(Complex one, int power) {
 		Complex result = one;
 		if (power > 1) {
-			result = result.mul(one);
+			for (int i = 1; i < power; i++)
+				result = result.mul(one);
 		}
 		return result;
 	}
@@ -132,27 +138,32 @@ public class Complex {
 	// корінь.
 	// Результатом є нове комплексне число
 	public Complex sqrt() {
-		double real = Math.sqrt((this.real + Math.sqrt(Math.pow(this.real, 2) + Math.pow(this.image, 2))) / 2);
+		double real = Math.sqrt((this.real + Math.sqrt(Math.pow(this.real, 2)
+				+ Math.pow(this.image, 2))) / 2);
 		double image = 4 / (2 * real);
 		return new Complex(real, image);
 	}
 
 	public static Complex sqrt(Complex one) {
-		double real = Math.sqrt((one.real + Math.sqrt(Math.pow(one.real, 2) + Math.pow(one.image, 2))) / 2);
+		double real = Math.sqrt((one.real + Math.sqrt(Math.pow(one.real, 2)
+				+ Math.pow(one.image, 2))) / 2);
 		double image = 4 / (2 * real);
 		return new Complex(real, image);
 	}
 
-	// Аналіз текстової стрічки, отриманої параметром в методі і побудова на основі
+	// Аналіз текстової стрічки, отриманої параметром в методі і побудова на
+	// основі
 	// цих даних комплексного числа
 	// Результатом є нове комплексне число.
 	// Може генерувати виключення, коли стрічка не відповідає прийнятому формату
 	// комплексного числа.
-	public static Complex parseFromString(String input) throws IllegalArgumentException, NumberFormatException {
+	public static Complex parseFromString(String input)
+			throws IllegalArgumentException, NumberFormatException {
 		if (input == null | input.isEmpty())
 			throw new IllegalArgumentException("Відсутні дані для аналізу");
 
-		input = input.replaceAll("\\ +|\\,", "").replaceAll("-", " -").replaceAll(",", ".").replaceAll("\\*", "");
+		input = input.replaceAll("\\ +|\\,", "").replaceAll("-", " -")
+				.replaceAll(",", ".").replaceAll("\\*", "");
 		if (input.charAt(0) == ' ' || input.charAt(0) == '+')
 			input = input.substring(1);
 		String[] partsOfComplex = input.split("[ |+]");
@@ -172,7 +183,8 @@ public class Complex {
 					try {
 						calculateReal = Double.valueOf(partsOfComplex[i]);
 					} catch (NumberFormatException ex) {
-						throw new NumberFormatException("Введено недопустимі символи");
+						throw new NumberFormatException(
+								"Введено недопустимі символи");
 					}
 					hasReal = true;
 				} else
@@ -181,12 +193,15 @@ public class Complex {
 			} else {
 				if (partsOfComplex[i].charAt(partsOfComplex[i].length() - 1) == 'i')
 					if (hasImage == false) {
-						if (partsOfComplex[i].length() > 1 & partsOfComplex[i].charAt(0) != '-')
+						if (partsOfComplex[i].length() > 1
+								& partsOfComplex[i].charAt(0) != '-')
 							try {
 								calculateImage = Double
-										.valueOf(partsOfComplex[i].substring(0, partsOfComplex[i].length() - 1));
+										.valueOf(partsOfComplex[i].substring(0,
+												partsOfComplex[i].length() - 1));
 							} catch (NumberFormatException ex) {
-								throw new NumberFormatException("Введено недопустимі символи");
+								throw new NumberFormatException(
+										"Введено недопустимі символи");
 							}
 						else if (partsOfComplex[i].charAt(0) != '-') {
 							calculateImage = 1;
@@ -202,7 +217,6 @@ public class Complex {
 							"Не корректні типи параметрів для числа (знак i стоїть перед числом)");
 			}
 		}
-		System.out.println(" є корректним комплексним числом");
 		return new Complex(calculateReal, calculateImage);
 	}
 
@@ -216,6 +230,36 @@ public class Complex {
 		if (one.real == 0 && one.image == 0)
 			return true;
 		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(image);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(real);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Complex other = (Complex) obj;
+		if (Double.doubleToLongBits(image) != Double
+				.doubleToLongBits(other.image))
+			return false;
+		if (Double.doubleToLongBits(real) != Double
+				.doubleToLongBits(other.real))
+			return false;
+		return true;
 	}
 
 	@Override
