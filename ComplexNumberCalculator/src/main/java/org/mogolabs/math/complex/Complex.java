@@ -13,12 +13,31 @@ public final class Complex {
 		this.image = image;
 	}
 
-	public int getRealAsInt() {
-		return (int) this.real;
+	public double getReal() {
+		return this.real;
 	}
-	
-	public int getImageAsInt() {
-		return (int) this.image;
+
+	public double getImage() {
+		return this.image;
+	}
+
+	protected Complex operate(Complex other, char operation) {
+		switch (operation) {
+		case '+':
+			return this.add(other);
+		case '-':
+			return this.sub(other);
+		case '*':
+			return this.mul(other);
+		case '/':
+			return this.div(other);
+		case '^':
+			if (other.getImage() != 0 || other.getReal() % 1 != 0)
+				throw new IllegalArgumentException("Не допустимий формат степеня: " + other);
+			return this.pow((int)other.getReal());
+		default:
+			throw new UnsupportedOperationException();
+		}
 	}
 
 	// додавання поточного комплексного числа до числа отриманого в методі
@@ -52,18 +71,15 @@ public final class Complex {
 		if (isNull())
 			throw new ArithmeticException();
 		double divisor = Math.pow(other.real, 2) + Math.pow(other.image, 2);
-		double real = (this.real * other.real + this.image * other.image)
-				/ divisor;
-		double image = (this.image * other.real - this.real * other.image)
-				/ divisor;
+		double real = (this.real * other.real + this.image * other.image) / divisor;
+		double image = (this.image * other.real - this.real * other.image) / divisor;
 		return new Complex(real, image);
 	}
 
 	// обчислення абсолютного значення поточного комплексного числа
 	// Результатом обчислення э дыйсне число
 	protected double abs() {
-		double sqrt = Math
-				.sqrt(Math.pow(this.real, 2) + Math.pow(this.real, 2));
+		double sqrt = Math.sqrt(Math.pow(this.real, 2) + Math.pow(this.real, 2));
 		return sqrt;
 	}
 
@@ -83,8 +99,7 @@ public final class Complex {
 	// корінь.
 	// Результатом є нове комплексне число
 	protected Complex sqrt() {
-		double real = Math.sqrt((this.real + Math.sqrt(Math.pow(this.real, 2)
-				+ Math.pow(this.image, 2))) / 2);
+		double real = Math.sqrt((this.real + Math.sqrt(Math.pow(this.real, 2) + Math.pow(this.image, 2))) / 2);
 		double image = 4 / (2 * real);
 		return new Complex(real, image);
 	}
@@ -116,11 +131,9 @@ public final class Complex {
 		if (getClass() != obj.getClass())
 			return false;
 		Complex other = (Complex) obj;
-		if (Double.doubleToLongBits(image) != Double
-				.doubleToLongBits(other.image))
+		if (image != other.image)
 			return false;
-		if (Double.doubleToLongBits(real) != Double
-				.doubleToLongBits(other.real))
+		if (real != other.real)
 			return false;
 		return true;
 	}
@@ -139,11 +152,15 @@ public final class Complex {
 				if (!result.isEmpty())
 					result += "+";
 			}
+			if (this.image < 0) {
+				result += "-";
+			}
 
 			if (this.image % 1 == 0) {
-				if (this.image != 1) {
+				if (Math.abs(this.image) != 1) {
 					result += (int) (this.image);
 				}
+
 			} else {
 				result += this.image;
 			}
