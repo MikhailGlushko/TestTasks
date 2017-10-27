@@ -117,7 +117,7 @@ public final class Calculator {
      * @param  input, 
      * @return Обєкт типу Complex()  
      */
-	public Complex calculate(String input) {
+	public Complex calculate(String input) throws IllegalArgumentException, NumberFormatException{
 		String[] tokens = new String[3];
 		if (input == null || input.isEmpty())
 			return null;
@@ -176,6 +176,8 @@ public final class Calculator {
 				result = firstOperand.div(secontOperand);
 				break;
 			case '^':
+				if(secontOperand.getImageAsInt()!=0)
+					throw new IllegalArgumentException("Не допустимий формат степеня: "+secontOperand);
 				result = firstOperand.pow(secontOperand.getRealAsInt());
 				break;
 			default:
@@ -195,6 +197,7 @@ public final class Calculator {
     * Розбиває вираз на два вирази
     * 
     * @param  input вираз, який необхідно вирахувати
+    * @throws IllegalArgumentException
     * @return масив стрічок  
     */
 	// Математичний вираз представляэмо у вигляді:
@@ -203,7 +206,7 @@ public final class Calculator {
 	// спочатку шукаємо операції "+" та "-" (перша група)
 	// якщо таких немає шукаємо операції "*" та "/" (друга група)
 	// якщо таких немає шукаємо операці "^" (третя група)
-	protected String[] tokanize(String input) {
+	protected String[] tokanize(String input) throws IllegalArgumentException{
 		String[] tokens = new String[3];
 		String firstToken = "";
 		String secondToken = "";

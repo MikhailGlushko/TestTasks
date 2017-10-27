@@ -16,6 +16,10 @@ public final class Complex {
 	public int getRealAsInt() {
 		return (int) this.real;
 	}
+	
+	public int getImageAsInt() {
+		return (int) this.image;
+	}
 
 	// додавання поточного комплексного числа до числа отриманого в методі
 	// @other
