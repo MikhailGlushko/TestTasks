@@ -22,22 +22,29 @@ public final class Complex {
 	}
 
 	protected Complex operate(Complex other, char operation) {
+		Complex result = new Complex();
 		switch (operation) {
 		case '+':
-			return this.add(other);
+			result = this.add(other);
+			break;
 		case '-':
-			return this.sub(other);
+			result = this.sub(other);
+			break;
 		case '*':
-			return this.mul(other);
+			result = this.mul(other);
+			break;
 		case '/':
-			return this.div(other);
+			result = this.div(other);
+			break;
 		case '^':
 			if (other.getImage() != 0 || other.getReal() % 1 != 0)
 				throw new IllegalArgumentException("Не допустимий формат степеня: " + other);
-			return this.pow((int)other.getReal());
+			result = this.pow((int)other.getReal());
+			break;
 		default:
 			throw new UnsupportedOperationException();
 		}
+		return result;
 	}
 
 	// додавання поточного комплексного числа до числа отриманого в методі
@@ -52,16 +59,16 @@ public final class Complex {
 	// віднімання @other комплексного числа, отриманого в методі від поточного
 	// // Результатом є нове комплексне число
 	protected Complex sub(Complex other) {
-		double real = -other.real;
-		double image = -other.image;
-		return add(new Complex(real, image));
+		double real = this.real - other.real;;
+		double image = this.image - other.image;
+		return new Complex(real, image);
 	}
 
 	// множення поточного комплексного числа на число отримане в методі @other
 	// Результатом є нове комплексне число
 	protected Complex mul(Complex other) {
 		double real = this.real * other.real - this.image * other.image;
-		double image = this.image * other.real + this.real * other.image;
+		double image = this.real * other.image + this.image * other.real;
 		return new Complex(real, image);
 	}
 
@@ -153,7 +160,7 @@ public final class Complex {
 					result += "+";
 			}
 			if (this.image < 0) {
-				result += "-";
+				//result += "-";
 			}
 
 			if (this.image % 1 == 0) {

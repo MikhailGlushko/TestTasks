@@ -3,6 +3,12 @@ package org.mogolabs.math.complex;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Клас для обчислення виразу, що містить косплексні числа
+ * Допустимі операції над косплексними числами: +-*.^
+ * Допустиме об'єднання чисет в групи за допомогою дужок () 
+ * 
+ */
 public final class Calculator {
 
 	public static final String[] OPERATION_GROUPS = new String[] { "+-", "*/", "^" };
@@ -104,7 +110,6 @@ public final class Calculator {
 			int end = token.length();
 			int countBrackets = 0;
 			char ch = 0;
-
 			needAnotherStep = false;
 			for (int index = start; index < end; index++) {
 				ch = token.charAt(index);
@@ -130,7 +135,6 @@ public final class Calculator {
 	 * @return Обєкт типу Complex()
 	 */
 	public Complex calculate(String input) throws IllegalArgumentException, NumberFormatException {
-
 		if (input == null || input.isEmpty())
 			return null;
 
@@ -141,10 +145,9 @@ public final class Calculator {
 
 		int index = 0;
 		String firstToken = index < tokens.length ? getToken(tokens, index++) : "";
-
 		Complex firstOperand = new Complex();
 
-		if (index == tokens.length) {
+		if (index == tokens.length) {	// думаємо що це число, за результатами роботи алгоритму 
 			try {
 				firstOperand = new Complex(Double.parseDouble(firstToken), 0);
 			} catch (NumberFormatException ex) {
@@ -164,7 +167,7 @@ public final class Calculator {
 			}
 		} else {
 			firstOperand = calculate(firstToken);
-			while (index < tokens.length) {
+			while (index < tokens.length) { // якщо є операції - вирахуємо їх
 				char op = index < tokens.length ? getToken(tokens, index++).charAt(0) : 0;
 				String secondToken = index < tokens.length ? getToken(tokens, index++) : "";
 				Complex secontOperand = calculate(secondToken);

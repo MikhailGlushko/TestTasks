@@ -168,8 +168,5 @@ public class CalculatorTests {
 		input = "(1+i)^(4/2)";
 		result = calculator.calculate(input);
 		assertEquals(result, new Complex(0, 2));	
-	
-		//input = "(3+4i)/(7-5i)+5i+1-((2+3i)^2+(4+i)(2-i))/(2+3i)-4i+7+(1-2i)^3+(1+3i)(2i-2i+3)/7i";
-		
 	}
 }
