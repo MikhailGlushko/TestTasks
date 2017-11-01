@@ -1,6 +1,7 @@
 package org.mogolabs;
 
 import org.mogolabs.math.complex.Complex;
+import org.mogolabs.math.complex.exception.ComplexException;
 import org.mogolabs.math.complex.Calculator;
 
 public class Calc {
@@ -24,7 +25,7 @@ public class Calc {
 						System.out.println(result);
 						completed++;
 					}
-				} catch (IllegalArgumentException ex) {
+				} catch (ComplexException ex) {
 					System.out.println("(ПОМИЛКА РОЗРАХУНКУ! " + ex.getMessage() + ")");
 				}
 			}
@@ -40,7 +41,7 @@ public class Calc {
 						System.out.print("вираз " + 1 + " : " + input + " = ");
 						Complex result = calc.calculate(input);
 						System.out.println(result);
-				} catch (IllegalArgumentException ex) {
+				} catch (ComplexException ex) {
 					System.out.println("(ПОМИЛКА РОЗРАХУНКУ! " + ex.getMessage() + ")");
 				}
 			System.out.println("***************************************\nРозрахунок виконано для " + 1 + " з "

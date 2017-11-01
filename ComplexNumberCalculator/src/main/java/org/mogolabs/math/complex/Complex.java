@@ -1,5 +1,10 @@
 package org.mogolabs.math.complex;
 
+import org.mogolabs.math.complex.exception.IncorrectElementException;
+
+/**
+ * Complex number (a + bI) 
+ */
 public final class Complex {
 	private double real;
 	private double image;
@@ -20,8 +25,19 @@ public final class Complex {
 	public double getImage() {
 		return this.image;
 	}
+	
+	/**
+	 * All other methods are declared as protected for the possibility of going out in test cases
+	 */
 
-	protected Complex operate(Complex other, char operation) {
+    /**
+     * Perform the operation (operation) to the two complex numbers (this and other)
+     * @param operation
+     * @param other 
+     * @throws IncorrectElementException 
+     * @result new instance of Complex
+     */
+	protected Complex operate(Complex other, char operation) throws IncorrectElementException {
 		Complex result = new Complex();
 		switch (operation) {
 		case '+':
@@ -38,7 +54,7 @@ public final class Complex {
 			break;
 		case '^':
 			if (other.getImage() != 0 || other.getReal() % 1 != 0)
-				throw new IllegalArgumentException("Не допустимий формат степеня: " + other);
+				throw new IncorrectElementException("Не допустимий формат степеня: " + other);
 			result = this.pow((int)other.getReal());
 			break;
 		default:
@@ -47,33 +63,44 @@ public final class Complex {
 		return result;
 	}
 
-	// додавання поточного комплексного числа до числа отриманого в методі
-	// @other
-	// Результатом є нове комплексне число
+    /**
+     * Additions two complex numbers (this + other)
+     * @param other 
+     * @result new instance of Complex
+     */
 	protected Complex add(Complex other) {
 		double real = this.real + other.real;
 		double image = this.image + other.image;
 		return new Complex(real, image);
 	}
 
-	// віднімання @other комплексного числа, отриманого в методі від поточного
-	// // Результатом є нове комплексне число
+	/**
+     * Subtraction two complex numbers (this - other)
+     * @param other 
+     * @result new instance of Complex
+     */	
 	protected Complex sub(Complex other) {
 		double real = this.real - other.real;;
 		double image = this.image - other.image;
 		return new Complex(real, image);
 	}
 
-	// множення поточного комплексного числа на число отримане в методі @other
-	// Результатом є нове комплексне число
+	/**
+     * Multiplication two complex numbers (this * other)
+     * @param other 
+     * @result new instance of Complex
+     */	
 	protected Complex mul(Complex other) {
 		double real = this.real * other.real - this.image * other.image;
 		double image = this.real * other.image + this.image * other.real;
 		return new Complex(real, image);
 	}
 
-	// ділення поточного комплексного числа на число отримане в методі @other
-	// Результатом є нове комплексне число
+	/**
+     * Division two complex numbers (this / other)
+     * @param other 
+     * @result new instance of Complex
+     */	
 	protected Complex div(Complex other) throws ArithmeticException {
 		if (isNull())
 			throw new ArithmeticException();
@@ -83,16 +110,20 @@ public final class Complex {
 		return new Complex(real, image);
 	}
 
-	// обчислення абсолютного значення поточного комплексного числа
-	// Результатом обчислення э дыйсне число
+	/**
+     * Calculate the absolute value of complex number (this)
+     * @result double value
+     */	
 	protected double abs() {
 		double sqrt = Math.sqrt(Math.pow(this.real, 2) + Math.pow(this.real, 2));
 		return sqrt;
 	}
 
-	// піднесення поточного комплексного числа до степені, отриманої в методі
-	// @power
-	// Результатом є нове комплексне число
+	/**
+     * Calculate the power (power) of complex number (this)
+     * @param power 
+     * @result new instance of Complex
+     */	
 	protected Complex pow(int power) {
 		Complex result = this;
 		if (power > 1) {
@@ -102,15 +133,20 @@ public final class Complex {
 		return result;
 	}
 
-	// Визначення квадратного кореня поточного числа, вираховується тільки один
-	// корінь.
-	// Результатом є нове комплексне число
+	/**
+     * Calculate the square of the complex number (this)
+     * @result new instance of Complex
+     */	
 	protected Complex sqrt() {
 		double real = Math.sqrt((this.real + Math.sqrt(Math.pow(this.real, 2) + Math.pow(this.image, 2))) / 2);
 		double image = 4 / (2 * real);
 		return new Complex(real, image);
 	}
 
+	/**
+     * Check the complex numbers (this) for 0 values
+     * @result boolean
+     */	
 	protected boolean isNull() {
 		if (this.real == 0 && this.image == 0)
 			return true;

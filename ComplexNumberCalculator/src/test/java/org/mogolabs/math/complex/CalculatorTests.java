@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import java.util.Arrays;
 
 import org.junit.Test;
+import org.mogolabs.math.complex.exception.ComplexException;
+import org.mogolabs.math.complex.exception.IncorrectOperationException;
 
 public class CalculatorTests {
 
@@ -12,14 +14,14 @@ public class CalculatorTests {
 	String input;
 	String result;
 
-	@Test(expected = IllegalArgumentException.class)
-	public void testDelSpacesAndSpecialCharsWithException() {
+	@Test(expected = IncorrectOperationException.class)
+	public void testDelSpacesAndSpecialCharsWithException() throws ComplexException {
 		input = "1++3";
 		result = calculator.delSpacesAndNormalize(input);
 	}
 
 	@Test
-	public void testDelSpacesAndSpecialChars() {
+	public void testDelSpacesAndSpecialChars() throws ComplexException {
 		String input;
 		String result;
 
@@ -39,7 +41,7 @@ public class CalculatorTests {
 	}
 
 	@Test
-	public void testTokanizer() {
+	public void testTokanizer() throws ComplexException {
 		String[] tokens = new String[3];
 		input = "";
 		input = calculator.delSpacesAndNormalize(input);
@@ -121,14 +123,14 @@ public class CalculatorTests {
 	}
 
 	@Test
-	public void testCalculateNull() {
+	public void testCalculateNull() throws ComplexException {
 		input = "";
 		Complex result = calculator.calculate(input);
 		assertEquals(result, null);
 	}
 
 	@Test
-	public void testCalculateRealNumber() {
+	public void testCalculateRealNumber() throws ComplexException {
 		input = "5";
 		Complex result = calculator.calculate(input);
 		assertEquals(result, new Complex(5, 0));
