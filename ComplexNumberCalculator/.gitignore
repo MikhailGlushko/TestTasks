@@ -1,3 +1,9 @@
 *.class
+*.iml
+*.yml
 *.~
-/target/
+target/
+*/target/
+out/
+*/out/
+.idea/
